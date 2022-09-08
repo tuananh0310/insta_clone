@@ -33,11 +33,9 @@
         if(error) hideLoading();
         showLoading();
     })
-
     function showLoading() {
         document.querySelector('.spinner-border').classList.remove('d-none')
     }
-
     function hideLoading() {
         document.querySelector('.spinner-border').classList.add('d-none')
     }

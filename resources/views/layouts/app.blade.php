@@ -17,23 +17,13 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300" />
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+
     <!--begin::Global Stylesheets Bundle(used by all pages)-->
     <link href="{{ asset('dist/assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('dist/assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
-    <!--begin::Javascript-->
-    <!--begin::Global Javascript Bundle(used by all pages)-->
-    <script src="{{ asset('dist/assets/plugins/global/plugins.bundle.js') }}"></script>
-    <script src="{{ asset('dist/assets/js/scripts.bundle.js') }}"></script>
-    <!--end::Global Javascript Bundle-->
-    <!--begin::Page Custom Javascript(used by this page)-->
-    <script src="{{ asset('dist/assets/js/custom/widgets.js') }}"></script>
-    <script src="{{ asset('dist/assets/js/custom/apps/chat/chat.js') }}"></script>
-    <script src="{{ asset('dist/assets/js/custom/modals/create-app.js') }}"></script>
-    <script src="{{ asset('dist/assets/js/custom/modals/upgrade-plan.js') }}"></script>
-    <!--end::Page Custom Javascript-->
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <!--end::Javascript-->
 </head>
 <body>
@@ -50,7 +40,6 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar5">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <!-- Links -->
             <div class="navbar-collapse collapse justify-content-stretch" id="navbar5">
 {{--                <form action="/search" method="POST" role="search" class="m-auto d-inline w-80">--}}
@@ -69,6 +58,7 @@
                     data-kt-search-layout="inline">
                     <!--begin::Input Form-->
                     <form data-kt-search-element="form"  action="/search" method="POST" role="search" class="m-auto d-inline w-80" autocomplete="off">
+                        @csrf
                         <!--begin::Hidden input(Added to disable form autocomplete)-->
                         <input type="hidden"/>
                         <!--end::Hidden input-->
@@ -82,7 +72,7 @@
                         </span>
                         <!--end::Icon-->
                         <!--begin::Input-->
-                        <input type="text" class="form-control form-control-lg form-control-solid px-15"
+                        <input type="text" name="q" class="form-control form-control-lg form-control-solid px-15"
                                name="search"
                                value=""
                                placeholder="Search something"
@@ -120,7 +110,7 @@
                     <!--end::Wrapper-->
                 </div>
                 <!--end::Main wrapper-->
-                <ul class="navbar-nav">
+                <ul class="navbar-nav" style="padding-top: 7px">
                     <!-- Authentication Links -->
                     @guest
                         <li class="nav-item">
@@ -132,24 +122,23 @@
                             </li>
                         @endif
                     @else
-                        <li class="nav-item px-2 {{ Route::is('post.index') ? 'active' : '' }}">
+                        <li class="nav-item px-2 pt-1 {{ Route::is('post.index') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ url('/') }}">
                                 <i class="fas fa-home fa-2x"></i>
                             </a>
                         </li>
-                        <li class="nav-item px-2 {{ Route::is('post.explore') ? 'active' : '' }}">
+                        <li class="nav-item px-2 pt-1 {{ Route::is('post.explore') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ url('/explore') }}">
                                 <i class="far fa-compass fa-2x"></i>
                             </a>
                         </li>
-                        <li class="nav-item pl-2">
-                            <a href="/profile/{{Auth::user()->username}}" class="nav-link" style="width: 42px; height: 22px; padding-top: 6px;" >
-{{--                                {{ asset(Auth::user()->profile->getProfileImage())  }}--}}
-                                <img src="" class="rounded-circle w-100">
+                        <li class="nav-item pl-2 pb-2">
+                            <a href="/profile/{{Auth::user()->username}}" class="nav-link" style="height: 37px; width: 37px" >
+                                <img src="{{ asset(Auth::user()->profile->getProfileImage())  }}" class="rounded-circle w-100">
                                 {{--                                 <i class="far fa-user fa-2x"></i>--}}
                             </a>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown pt-1">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -159,13 +148,11 @@
                                         Add New Post
                                     </a>
                                 @endcan
-
                                 {{--                                @can('update', Auth::user()->profile)--}}
                                 {{--                                    <a class="dropdown-item" href="/stories/create" role="button">--}}
                                 {{--                                        Add New Story--}}
                                 {{--                                    </a>--}}
                                 {{--                                @endcan--}}
-
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
@@ -193,7 +180,18 @@
 </div>
 
 @yield('exscript')
-
+<!--begin::Javascript-->
+<!--begin::Global Javascript Bundle(used by all pages)-->
+<script src="{{ asset('dist/assets/plugins/global/plugins.bundle.js') }}"></script>
+<script src="{{ asset('dist/assets/js/scripts.bundle.js') }}"></script>
+<!--end::Global Javascript Bundle-->
+<!--begin::Page Custom Javascript(used by this page)-->
+<script src="{{ asset('dist/assets/js/custom/widgets.js') }}"></script>
+<script src="{{ asset('dist/assets/js/custom/apps/chat/chat.js') }}"></script>
+<script src="{{ asset('dist/assets/js/custom/modals/create-app.js') }}"></script>
+<script src="{{ asset('dist/assets/js/custom/modals/upgrade-plan.js') }}"></script>
+<!--end::Page Custom Javascript-->
 </body>
+
 </html>
 

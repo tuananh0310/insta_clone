@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\FollowController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,9 +24,12 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Post Route
-Route::get('/',[PostController::class,'index'])->name('post.index');
 Route::get('/p/create',[PostController::class,'create'])->name('post.create');
+Route::get('/',[PostController::class,'index'])->name('post.index');
 Route::post('/p',[PostController::class,'store'])->name('post.store');
+Route::delete('/p/{post}', [PostController::class,'destroy'])->name('post.destroy');
+Route::get('/explore', [PostController::class,'explore'])->name('post.explore');
+Route::get('/p/{post}', [PostController::class,'show'])->name('post.show');
 
 
 // Profile route
