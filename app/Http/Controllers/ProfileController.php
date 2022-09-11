@@ -12,6 +12,10 @@ class ProfileController extends Controller
     public function index(User $user)
     {
         $follows = (auth()->user()) ? auth()->user()->following->contains($user->profile) : false;
+        foreach ($user->posts as $userPost){
+            $userPost->image = explode('|', $userPost->image);
+            $userPost->firstImage = $userPost->image[0];
+        }
         return view('profiles.index', compact('user', 'follows'));
     }
 
@@ -21,7 +25,7 @@ class ProfileController extends Controller
         return view('profiles.edit', compact('user'));
     }
 
-    public function update(ProfileUpdateRequest $request,User $user)
+    public function update(ProfileUpdateRequest $request, User $user)
     {
         $this->authorize('update', $user->profile);
         $imagePath = "";

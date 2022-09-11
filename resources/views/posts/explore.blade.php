@@ -7,12 +7,10 @@
             @foreach ($posts as $post)
                 <div class="col-4 col-md-4 mb-4">
                     <div class="card">
-
                         <!-- Post Image -->
                         <a href="/p/{{ $post->id }}" style='height: 320px; width: auto'>
-                            <img src="{{ asset("storage/$post->image") }}" class="card-img-top h-100 w-100" alt="..." >
+                            <img src="{{ $post->firstImage }}" class="card-img-top h-100 w-100" alt="..." >
                         </a>
-
                         <!-- User Info -->
                         <div class="card-body py-2 px-2">
                             <div class="d-flex align-items-start">

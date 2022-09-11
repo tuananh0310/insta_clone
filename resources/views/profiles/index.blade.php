@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container pt-20">
+    <div class="container pt-7">
         <div class="row pl-20">
             <div class="col-3 p-5">
                 @if ($user->profile)
@@ -17,11 +17,11 @@
                             Edit Profile
                         </a>
                     @else
-                        <follow-button user-id="{{ $user->username }}" follows="{{ $follows ?? "none" }}"></follow-button>
+                        <follow-button  user-id="{{ $user->username }}" follows="{{ $follows ?? "none" }}"></follow-button>
                     @endcan
 
                 </div>
-                <div class="d-flex">
+                <div class="d-flex pt-2">
                     <div class="pr-5"><strong> {{ $user->posts->count() }} </strong> posts</div>
                     <div class="pr-5"><strong>                     {{ $user->profile->followers->count() ?? ""}}
                         </strong> followers</div>
@@ -39,13 +39,18 @@
 
             </div>
         </div>
-
         <div class="row pt-4 border-top">
-
+{{--            @foreach($user->posts as $post)--}}
+{{--                <div class="col-4 col-md-4 mb-4 align-self-stretch">--}}
+{{--                    <a href="/p/{{ $post->id }}">--}}
+{{--                        <img class="img border" height="300" src="{{ URL::to($post->firstImage) }}">--}}
+{{--                    </a>--}}
+{{--                </div>--}}
+{{--            @endforeach--}}
             @forelse ($user->posts as $post)
                 <div class="col-4 col-md-4 mb-4 align-self-stretch">
                     <a href="/p/{{ $post->id }}">
-                        <img class="img border" height="300" src="{{ asset("storage/$post->image") }}">
+                        <img class="img border" height="300" src="{{ URL::to($post->firstImage) }}">
                     </a>
                 </div>
             @empty

@@ -18,7 +18,6 @@
                                           autocomplete="caption"  cols="30" rows="3" placeholder="Write a caption..."
                                           class="form-control @error('caption') is-invalid @enderror"
                                 >{{ old('caption') }}</textarea>
-
                                     @error('caption')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -30,7 +29,7 @@
                                 <label for="image" class="col-md-4 col-form-label text-md-right"><strong>Photo</strong></label>
                                 <div class="col-md-6">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input @error('image') is-invalid @enderror" name="image" multiple id="image" >
+                                        <input type="file" class="custom-file-input @error('image') is-invalid @enderror" name="image[]" multiple id="image" >
                                         <label class="custom-file-label" for="image">{{ old('image') ?? "Select Photo..." }}</label>
                                         @error('image')
                                         <span class="invalid-feedback" role="alert">

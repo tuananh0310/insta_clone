@@ -43,6 +43,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    protected static function boot()
+    {
+
+        parent::boot();
+
+        static::created(function ($user) {
+            $user->profile()->create([
+                'image' => '/profile/default.png',
+            ]);
+        });
+    }
     public function posts()
     {
         return $this->hasMany(Post::class)->orderBy('created_at','desc');
@@ -50,7 +61,7 @@ class User extends Authenticatable
 
     public function profile()
     {
-        return $this->hasOne(Profile::class,'user_id','id');
+        return $this->hasOne(Profile::class);
     }
 
     public function following()
@@ -61,5 +72,15 @@ class User extends Authenticatable
     public function getRouteKeyName()
     {
         return 'username';
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
     }
 }

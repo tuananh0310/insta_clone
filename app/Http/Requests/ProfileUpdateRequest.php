@@ -27,8 +27,8 @@ class ProfileUpdateRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
-            'website' => [ 'required','url', 'nullable'],
-            'bio' => [ 'required','string', 'nullable'],
+            'website' => [ 'url', 'nullable'],
+            'bio' => [ 'string', 'nullable'],
             'image' => [ 'image', 'max:3000']
         ];
     }

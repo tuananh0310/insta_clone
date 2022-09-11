@@ -54,90 +54,83 @@
 {{--                        <img class="card-img" src="{{ asset("storage/$post->image") }}" alt="post image" style="max-height: 767px">--}}
 {{--                    </div>--}}
 
-                    <div class="tns">
+                    <div class="tns" >
                         <div data-tns="true" data-tns-nav-position="bottom" data-tns-controls="false">
                             <!--begin::Item-->
-                            <div class="text-center px-5 pt-5 pt-lg-10 px-lg-10">
-                                <img src="{{ asset("storage/$post->image") }}" class="card-rounded shadow mw-100" alt="" />
-                            </div>
+{{--                                <img src="{{ asset("storage/$post->image") }}" class="card-rounded shadow mw-100" alt="" />--}}
+                                @foreach($post->image as $value)
+                                <div class="js-post">
+                                <img src="{{ $value }}" class="card-img w-100 h-100" alt="" />
+                                </div>
+                                @endforeach
+
                         </div>
                     </div>
 
                     <!-- Card Body -->
                     <div class="card-body px-3 py-2">
+                        <div class="d-flex flex-row">
+                            <form method="POST" action="{{route('like.create', ['like'=>$post->id] ) }}">
+                                @csrf
+                                @if (true)
+                                    <input id="inputid" name="update" type="hidden" value="1">
+                                @else
+                                    <input id="inputid" name="update" type="hidden" value="0">
+                                @endif
 
-                        {{--                            <div class="d-flex flex-row">--}}
-                        {{--                                <form method="POST" action="{{url()->action('LikeController@update2', ['like'=>$post->id])}}">--}}
-                        {{--                                    @csrf--}}
-                        {{--                                    @if (true)--}}
-                        {{--                                        <input id="inputid" name="update" type="hidden" value="1">--}}
-                        {{--                                    @else--}}
-                        {{--                                        <input id="inputid" name="update" type="hidden" value="0">--}}
-                        {{--                                    @endif--}}
+                                @if($post->like->isEmpty())
+                                    <button type="submit" class="btn pl-0">
+                                        <i class="far fa-heart fa-2x"></i>
+                                    </button>
+                                @else
+                                    @foreach($post->like as $likes)
+                                        @if($likes->user_id==Auth::User()->id && $likes->State==true)
+                                            @php
+                                                $state=true;
+                                            @endphp
+                                        @endif
+                                    @endforeach
+                                    @if($state)
+                                        <button type="submit" class="btn pl-0">
+                                            <i class="fas fa-heart fa-2x" style="color:red"></i>
+                                        </button>
+                                    @else
+                                        <button type="submit" class="btn pl-0">
+                                            <i class="far fa-heart fa-2x"></i>
+                                        </button>
+                                    @endif
+                                @endif
+                                <a href="/p/{{ $post->id }}" class="btn pl-0">
+                                    <i class="far fa-comment fa-2x"></i>
+                                </a>
+                                <!-- Share Button trigger modal -->
+{{--                                <button type="button" class="btn pl-0 pt-0" data-toggle="modal" data-target="#sharebtn{{$post->id}}">--}}
+{{--                                    <svg aria-label="Share Post" class="_8-yf5 " fill="#262626" height="22" viewBox="0 0 48 48" width="21"><path d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 6.1h35.5L18 18.7 5.2 6.1zm18.7 33.6l-4.4-18.4L42.4 8.6 23.9 39.7z"></path></svg>--}}
+{{--                                </button>--}}
+                                <!-- Share Modal -->
+                                <div class="modal fade" id="sharebtn{{$post->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                        <div class="modal-content">
+                                            <ul class="list-group">
+                                                <li class="list-group-item" style="position: absolute; left: -1000px; top: -1000px">
+                                                    <input type="text" value="http://btl-laravel.demo/p/{{ $post->id }}" id="copy_{{ $post->id }}" />
+                                                </li>
+                                                <li class="btn list-group-item" data-dismiss="modal" onclick="copyToClipboard('copy_{{ $post->id }}')">Copy Link</li>
+                                                <li class="btn list-group-item" data-dismiss="modal">Cancel</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
 
-                        {{--                                    @if($post->like->isEmpty())--}}
-                        {{--                                        <button type="submit" class="btn pl-0">--}}
-                        {{--                                            <i class="far fa-heart fa-2x"></i>--}}
-                        {{--                                        </button>--}}
-                        {{--                                    @else--}}
-
-                        {{--                                        @foreach($post->like as $likes)--}}
-
-                        {{--                                            @if($likes->user_id==Auth::User()->id && $likes->State==true)--}}
-                        {{--                                                @php--}}
-                        {{--                                                    $state=true;--}}
-                        {{--                                                @endphp--}}
-                        {{--                                            @endif--}}
-
-                        {{--                                        @endforeach--}}
-
-                        {{--                                        @if($state)--}}
-                        {{--                                            <button type="submit" class="btn pl-0">--}}
-                        {{--                                                <i class="fas fa-heart fa-2x" style="color:red"></i>--}}
-                        {{--                                            </button>--}}
-                        {{--                                        @else--}}
-                        {{--                                            <button type="submit" class="btn pl-0">--}}
-                        {{--                                                <i class="far fa-heart fa-2x"></i>--}}
-                        {{--                                            </button>--}}
-                        {{--                                        @endif--}}
-
-                        {{--                                    @endif--}}
-
-                        {{--                                    <a href="/p/{{ $post->id }}" class="btn pl-0">--}}
-                        {{--                                        <i class="far fa-comment fa-2x"></i>--}}
-                        {{--                                    </a>--}}
-
-                        {{--                                    <!-- Share Button trigger modal -->--}}
-                        {{--                                    <button type="button" class="btn pl-0 pt-0" data-toggle="modal" data-target="#sharebtn{{$post->id}}">--}}
-                        {{--                                        <svg aria-label="Share Post" class="_8-yf5 " fill="#262626" height="22" viewBox="0 0 48 48" width="21"><path d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 6.1h35.5L18 18.7 5.2 6.1zm18.7 33.6l-4.4-18.4L42.4 8.6 23.9 39.7z"></path></svg>--}}
-                        {{--                                    </button>--}}
-
-                        {{--                                    <!-- Share Modal -->--}}
-                        {{--                                    <div class="modal fade" id="sharebtn{{$post->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">--}}
-                        {{--                                        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">--}}
-                        {{--                                            <div class="modal-content">--}}
-                        {{--                                                <ul class="list-group">--}}
-                        {{--                                                    <li class="list-group-item" style="position: absolute; left: -1000px; top: -1000px">--}}
-                        {{--                                                        <input type="text" value="http://localhost:8000/p/{{ $post->id }}" id="copy_{{ $post->id }}" />--}}
-                        {{--                                                    </li>--}}
-                        {{--                                                    <li class="btn list-group-item" data-dismiss="modal" onclick="copyToClipboard('copy_{{ $post->id }}')">Copy Link</li>--}}
-                        {{--                                                    <li class="btn list-group-item" data-dismiss="modal">Cancel</li>--}}
-                        {{--                                                </ul>--}}
-                        {{--                                            </div>--}}
-                        {{--                                        </div>--}}
-                        {{--                                    </div>--}}
-
-                        {{--                                </form>--}}
-                        {{--                            </div>--}}
+                            </form>
+                        </div>
                         <div class="flex-row">
-
                             <!-- Likes -->
-                            {{--                                @if (count($post->like->where('State',true)) > 0)--}}
-                            {{--                                    <h6 class="card-title">--}}
-                            {{--                                        <strong>{{ count($post->like->where('State',true)) }} likes</strong>--}}
-                            {{--                                    </h6>--}}
-                            {{--                                @endif--}}
-
+                            @if (count($post->like->where('State',true)) > 0)
+                                <h6 class="card-title">
+                                    <strong>{{ count($post->like->where('State',true)) }} likes</strong>
+                                </h6>
+                            @endif
                             {{-- Post Caption --}}
                             <p class="card-text mb-1">
                                 <a href="/profile/{{$post->user->username}}" class="my-0 text-dark text-decoration-none">
@@ -146,29 +139,27 @@
                                 {{ $post->caption }}
                             </p>
                             <!-- Comment -->
-                            {{--                                <div class="comments">--}}
-                            {{--                                    @if (count($post->comments) > 0)--}}
-                            {{--                                        <a href="/p/{{ $post->id }}" class="text-muted">View all {{count($post->comments)}} comments</a>--}}
-                            {{--                                    @endif--}}
-                            {{--                                    @foreach ($post->comments->sortByDesc("created_at")->take(2) as $comment)--}}
-                            {{--                                        <p class="mb-1"><strong>{{ $comment->user->name }}</strong>  {{ $comment->body }}</p>--}}
-                            {{--                                    @endforeach--}}
-                            {{--                                </div>--}}
-
+                                <div class="comments">
+                                    @if (count($post->comments) > 0)
+                                        <a href="{{route('post.show',$post->id)  }}" class="text-muted">View all {{count($post->comments)}} comments</a>
+                                    @endif
+                                    @foreach ($post->comments->sortByDesc("created_at")->take(2) as $comment)
+                                        <p class="mb-1"><strong>{{ $comment->user->name }}</strong>  {{ $comment->body }}</p>
+                                    @endforeach
+                                </div>
                             <!-- Created At  -->
 {{--                            <p class="card-text text-muted">{{ $post->created_at->diffForHumans() }}</p>--}}
                         </div>
                     </div>
-
                     <!-- Card Footer -->
                     <div class="card-footer p-0">
                         <!-- Add Comment -->
-                        <form action="" method="POST"> {{--   {{ action('CommentController@store') }}    --}}
+                        <form action="{{ route('comments.store') }}" method="POST"> {{--   {{ action('CommentController@store') }}    --}}
                             @csrf
                             <div class="form-group mb-0  text-muted">
                                 <div class="input-group is-invalid">
                                     <input type="hidden" name="post_id" value="{{$post->id}}">
-                                    <textarea class="form-control" id="body" name='body' rows="1" cols="1" placeholder="Add a comment..."></textarea>
+                                    <textarea style="border: none; padding-top: 10px" class="form-control" id="body" name='body' rows="1" cols="1" placeholder="Add a comment..."></textarea>
                                     <div class="input-group-append">
                                         <button class="btn btn-md btn-outline-info" type="submit">Post</button>
                                     </div>
@@ -189,9 +180,7 @@
                 </div>
 
             @endforelse
-
             {{-- <example-component></example-component> --}} <!-- Testin Infinite scrooling with vue -->
-
         </main>
 
         {{-- Aside Section --}}
@@ -215,7 +204,6 @@
                 <!-- Suggestions -->
                 <div class='mb-4' style="width: 300px; padding-top: 20px">
                     <h6 class='text-secondary'>Suggestions For You</h5>
-
                         <!-- Suggestion Profiles-->
                         @foreach ($suggest_users as $sugg_user)
                             @if ($loop->iteration == 6)
@@ -245,7 +233,6 @@
                 <div>
                     <span style='color: #a6b3be;'>© 2022 InstaClone from TuanAnhLe</span>
                 </div>
-
             </div>
         </aside>
 

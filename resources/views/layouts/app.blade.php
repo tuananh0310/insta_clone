@@ -8,14 +8,14 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- Title --}}
-    <title>{{ config('app.name', 'InstaClone') }}</title>
+    <title>{{ config('app.name', 'InstagramClone') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300" />
+{{--    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300" />--}}
 
 
     <!--begin::Global Stylesheets Bundle(used by all pages)-->
@@ -28,13 +28,12 @@
 </head>
 <body>
 <div id="app">
-
     <!-- Header section -->
     <nav class="navbar fixed-top navbar-expand-md navbar-light bg-white shadow-sm" style="height: 57px">
         <div class="container">
 
             <!-- Logo -->
-            <a href="{{ url('/') }}" class="navbar-brand">
+            <a href="{{ route('post.index') }}" class="navbar-brand">
                 <img src="{{asset('img/insta.png')}}" alt="Instagram Logo" style="width: 132px;">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar5">
@@ -42,22 +41,15 @@
             </button>
             <!-- Links -->
             <div class="navbar-collapse collapse justify-content-stretch" id="navbar5">
-{{--                <form action="/search" method="POST" role="search" class="m-auto d-inline w-80">--}}
-{{--                    @csrf--}}
-{{--                    <div class="input-group">--}}
-{{--                        <input class="form-control form-control-solid ps-14" style="width: 270px; height: 40px" name="q"  type="search" placeholder="Search" aria-label="Search">--}}
-{{--                    </div>--}}
-{{--                    --}}
-{{--                </form>--}}
                 <!--begin::Main wrapper-->
-                <div class="navbar-collapse collapse justify-content-stretch" id="navbar5"
+                <div class="navbar-collapse collapse justify-content-stretch border-5" id="navbar5"
                     id="kt_docs_search_handler_basic"
                     data-kt-search-keypress="true"
                     data-kt-search-min-length="2"
                     data-kt-search-enter="true"
                     data-kt-search-layout="inline">
                     <!--begin::Input Form-->
-                    <form data-kt-search-element="form"  action="/search" method="POST" role="search" class="m-auto d-inline w-80" autocomplete="off">
+                    <form data-kt-search-element="form"  action="{{ route('profile.search') }}" method="POST" role="search" class="m-auto d-inline w-80"  autocomplete="off">
                         @csrf
                         <!--begin::Hidden input(Added to disable form autocomplete)-->
                         <input type="hidden"/>
@@ -86,7 +78,6 @@
                         <!--begin::Reset-->
                         <span class="btn btn-flush btn-active-color-primary position-absolute top-50 end-0 translate-middle-y lh-0 me-5 d-none"
                               data-kt-search-element="clear">
-                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                         </span>
                         <!--end::Reset-->
                         </form>
@@ -123,7 +114,7 @@
                         @endif
                     @else
                         <li class="nav-item px-2 pt-1 {{ Route::is('post.index') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ url('/') }}">
+                            <a class="nav-link" href="{{ route('post.index') }}">
                                 <i class="fas fa-home fa-2x"></i>
                             </a>
                         </li>
@@ -134,8 +125,7 @@
                         </li>
                         <li class="nav-item pl-2 pb-2">
                             <a href="/profile/{{Auth::user()->username}}" class="nav-link" style="height: 37px; width: 37px" >
-                                <img src="{{ asset(Auth::user()->profile->getProfileImage())  }}" class="rounded-circle w-100">
-                                {{--                                 <i class="far fa-user fa-2x"></i>--}}
+                                <img src="{{ asset(Auth::user()->profile->getProfileImage()) }} " class="rounded-circle w-100">
                             </a>
                         </li>
                         <li class="nav-item dropdown pt-1">
@@ -144,7 +134,7 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
                                 @can('update', Auth::user()->profile)
-                                    <a class="dropdown-item" href="/p/create" role="button">
+                                    <a class="dropdown-item" href="{{ route('post.create') }}" role="button">
                                         Add New Post
                                     </a>
                                 @endcan
@@ -165,14 +155,11 @@
                             </div>
                         </li>
                         {{-- @endif --}}
-
                     @endguest
                 </ul>
             </div>
         </div>
     </nav>
-
-    <!-- Content section -->
     <div class="pt-3 mt-5">
         @yield('content')
     </div>
