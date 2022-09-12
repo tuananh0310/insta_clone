@@ -8,15 +8,20 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
+    private $comment;
+    public function __construct(Comment $comment)
+    {
+        $this->comment = $comment;
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * store comment
+     */
     public function store(Request $request)
     {
-        $post = Post::findOrFail($request->post_id);
-        Comment::create([
-           'body' => $request->body,
-            'post_id' => $request->post_id,
-            'user_id' => auth()->user()->id,
-            'parent_id' => $request->parent_id
-        ]);
-            return redirect()->route('post.show', compact('post'));
+        $post = $this->comment->storeComment($request);
+        return redirect()->route('post.show', compact('post'));
     }
 }

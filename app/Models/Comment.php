@@ -25,4 +25,16 @@ class Comment extends Model
     {
         return $this->hasMany(Comment::class,'parent_id');
     }
+
+    public function storeComment($request)
+    {
+        $post = Post::findOrFail($request->post_id);
+        Comment::create([
+            'body' => $request->body,
+            'post_id' => $request->post_id,
+            'user_id' => auth()->user()->id,
+            'parent_id' => $request->parent_id
+        ]);
+        return $post;
+    }
 }

@@ -4,9 +4,16 @@
     <div class="container pt-7">
         <div class="row pl-20">
             <div class="col-3 p-5">
-                @if ($user->profile)
-                <img src="{{ asset($user->profile->getProfileImage()) }}" class="rounded-circle w-75">
+                @if ($user->stories->count() > 0)
+                    <a href="/stories/{{$user->username}}" >
+                        <img src="{{ asset($user->profile->getProfileImage()) }}" class="border-linear  w-100" style="border: 3px solid rgb(0, 149, 246)">
+                    </a>
+                @else
+                    <img src="{{ asset($user->profile->getProfileImage()) }}" class="rounded-circle w-100">
                 @endif
+{{--                @if ($user->profile)--}}
+{{--                <img src="{{ asset($user->profile->getProfileImage()) }}" class="rounded-circle w-75">--}}
+{{--                @endif--}}
             </div>
             <div class="col-9 pt-5">
                 <div class="d-flex align-items-center">

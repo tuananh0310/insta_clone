@@ -53,7 +53,6 @@
 {{--                        <i class="fa fa-heart"></i>--}}
 {{--                        <img class="card-img" src="{{ asset("storage/$post->image") }}" alt="post image" style="max-height: 767px">--}}
 {{--                    </div>--}}
-
                     <div class="tns" >
                         <div data-tns="true" data-tns-nav-position="bottom" data-tns-controls="false">
                             <!--begin::Item-->
@@ -133,7 +132,7 @@
                             @endif
                             {{-- Post Caption --}}
                             <p class="card-text mb-1">
-                                <a href="/profile/{{$post->user->username}}" class="my-0 text-dark text-decoration-none">
+                                <a href="{{route('profile.index', $post->user->username) }}" class="my-0 text-dark text-decoration-none">
                                     <strong>{{ $post->user->name }}</strong>
                                 </a>
                                 {{ $post->caption }}
@@ -203,7 +202,7 @@
 
                 <!-- Suggestions -->
                 <div class='mb-4' style="width: 300px; padding-top: 20px">
-                    <h6 class='text-secondary'>Suggestions For You</h5>
+                    <h5 class='text-secondary'>Suggestions For You</h5>
                         <!-- Suggestion Profiles-->
                         @foreach ($suggest_users as $sugg_user)
                             @if ($loop->iteration == 6)
@@ -211,17 +210,17 @@
                             @endif
                             <div class='suggestions py-2'>
                                 <div class="d-flex align-items-center ">
-                                    <a href="/profile/{{$sugg_user->username}}" style="width: 32px; height: 32px;">
+                                    <a href="{{route('profile.index', $sugg_user->username)}}" style="width: 32px; height: 32px;">
                                         <img src="{{ asset($sugg_user->profile->getProfileImage()) }}" class="rounded-circle w-100">
                                     </a>
                                     <div class='d-flex flex-column pl-3'>
-                                        <a href="/profile/{{$sugg_user->username}}" class='h6 m-0 text-dark text-decoration-none' >
+                                        <a href="{{route('profile.index', $sugg_user->username)}}" class='h6 m-0 text-dark text-decoration-none' >
                                             <strong>{{ $sugg_user->name}}</strong>
                                         </a>
                                         <small class="text-muted">New to Instagram </small>
                                     </div>
-                                    <a href="#" class='ml-auto text-info text-decoration-none'>
-                                        Follow
+                                    <a href="#" class='ml-4 pb-2 text-decoration-none' style="color:#0095f6;">
+                                        <b>Follow</b>
                                     </a>
                                 </div>
                             </div>

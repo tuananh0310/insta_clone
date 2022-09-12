@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\StoryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,6 +35,8 @@ Route::get('/explore', [PostController::class,'explore'])->name('post.explore');
 Route::get('/p/{post}', [PostController::class,'show'])->name('post.show');
 Route::post('/p/{post}', [PostController::class,'updatelikes'])->name('post.update');
 Route::post('/like/{like}', [LikeController::class,'update'])->name('like.create');
+
+// Comment Route
 Route::post('/comment', [CommentController::class,'store'])->name('comments.store');
 
 // Profile route
@@ -42,6 +45,10 @@ Route::get('/profile/{user}/edit',[ProfileController::class,'edit'])->name('prof
 Route::put('/profile/{user}',[ProfileController::class,'update'])->name('profile.update');
 Route::any('/search', [ProfileController::class,'search'])->name('profile.search')->middleware('auth');
 
-
-// Follow route
+// Follow Route
 Route::post('/follow/{user}',[FollowController::class, 'store']);
+
+// Story Route
+Route::get('/stories/create',[StoryController::class,'create'] )->name('stories.create');
+Route::get('/stories/{user}', [StoryController::class,'show'])->name('stories.show');
+Route::post('/stories', [StoryController::class,'store'])->name('stories.store');

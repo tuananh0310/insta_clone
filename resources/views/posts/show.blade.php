@@ -128,12 +128,12 @@
 
                                     <!-- Add Comment -->
 {{--                                    {{ action('CommentController@store') }}--}}
-                                    <form action="" method="POST">
+                                    <form action="{{ route('comments.store') }}" method="POST">
                                         @csrf
                                         <div class="form-group mb-0 text-muted" >
                                             <div class="input-group is-invalid">
                                                 <input type="hidden" name="post_id" value="{{$post->id}}">
-                                                <input type="hidden" name="redirect" value="show">
+{{--                                                <input type="hidden" name="body" value="show">--}}
                                                 <textarea class="form-control ml-2 py-2 px-3" id="body" style="border: none" name='body' rows="1" placeholder="Add a comment..."></textarea>
                                                 <div class="input-group-append">
                                                     <button class="btn btn-md btn-outline-info" type="submit">Post</button>

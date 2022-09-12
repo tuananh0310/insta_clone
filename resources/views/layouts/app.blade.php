@@ -17,7 +17,6 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
 {{--    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300" />--}}
 
-
     <!--begin::Global Stylesheets Bundle(used by all pages)-->
     <link href="{{ asset('dist/assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('dist/assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
@@ -31,7 +30,6 @@
     <!-- Header section -->
     <nav class="navbar fixed-top navbar-expand-md navbar-light bg-white shadow-sm" style="height: 57px">
         <div class="container">
-
             <!-- Logo -->
             <a href="{{ route('post.index') }}" class="navbar-brand">
                 <img src="{{asset('img/insta.png')}}" alt="Instagram Logo" style="width: 132px;">
@@ -82,7 +80,6 @@
                         <!--end::Reset-->
                         </form>
                         <!--end::Form-->
-
                     <!--begin::Wrapper-->
                     <div class="py-5">
                         <!--end::Suggestion wrapper-->
@@ -91,7 +88,6 @@
                             ...
                         </div>
                         <!--end::Search results-->
-
                         <!--begin::Empty search-->
                         <div data-kt-search-element="empty" class="text-center d-none">
                             ...
@@ -138,11 +134,11 @@
                                         Add New Post
                                     </a>
                                 @endcan
-                                {{--                                @can('update', Auth::user()->profile)--}}
-                                {{--                                    <a class="dropdown-item" href="/stories/create" role="button">--}}
-                                {{--                                        Add New Story--}}
-                                {{--                                    </a>--}}
-                                {{--                                @endcan--}}
+                                    @can('update', Auth::user()->profile)
+                                        <a class="dropdown-item" href="{{ route('stories.create') }}" role="button">
+                                            Add New Story
+                                        </a>
+                                    @endcan
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
@@ -163,7 +159,6 @@
     <div class="pt-3 mt-5">
         @yield('content')
     </div>
-
 </div>
 
 @yield('exscript')
