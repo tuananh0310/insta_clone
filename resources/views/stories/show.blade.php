@@ -3,64 +3,34 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    {{-- Title --}}
     <title>Story</title>
-
-    <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/story.css') }}">
-
 </head>
 <body>
 <div id="app">
     <div class="container">
         <div id="times" class="time">
         </div>
-
         <div class="content">
             <div class="texts">
                 <h1 id="title"></h1>
                 <h5 id="description"></h5>
             </div>
         </div>
-
         <div id="back"></div>
         <div id="next"></div>
-        <a href="/profile/{{$user->username}}" >
-            <span class="close">x</span>
+        <a href="{{route('profile.index',$user->username)}}" >
+            <span class="close" ><span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Code/Error-circle.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect x="0" y="0" width="24" height="24"/>
+        <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10"/>
+        <path d="M12.0355339,10.6213203 L14.863961,7.79289322 C15.2544853,7.40236893 15.8876503,7.40236893 16.2781746,7.79289322 C16.6686989,8.18341751 16.6686989,8.81658249 16.2781746,9.20710678 L13.4497475,12.0355339 L16.2781746,14.863961 C16.6686989,15.2544853 16.6686989,15.8876503 16.2781746,16.2781746 C15.8876503,16.6686989 15.2544853,16.6686989 14.863961,16.2781746 L12.0355339,13.4497475 L9.20710678,16.2781746 C8.81658249,16.6686989 8.18341751,16.6686989 7.79289322,16.2781746 C7.40236893,15.8876503 7.40236893,15.2544853 7.79289322,14.863961 L10.6213203,12.0355339 L7.79289322,9.20710678 C7.40236893,8.81658249 7.40236893,8.18341751 7.79289322,7.79289322 C8.18341751,7.40236893 8.81658249,7.40236893 9.20710678,7.79289322 L12.0355339,10.6213203 Z" fill="#000000"/>
+    </g>
+</svg><!--end::Svg Icon--></span></span>
         </a>
     </div>
 </div>
-
-{{-- <script src="{{ asset('js/story.js') }}" ></script> --}}
-
 <script>
-    // const stories = [
-    //     {
-    //         title: "Story 1",
-    //         description: "description 1",
-    //         image: "https://picsum.photos/500/750",
-    //         time: 3500
-    //     },
-    //     {
-    //         title: "Story 2",
-    //         description: "description 2",
-    //         image: "https://picsum.photos/500/751",
-    //         time: 4000
-    //     },
-    //     {
-    //         title: "Story 3",
-    //         description: "description 3",
-    //         image: "https://picsum.photos/500/752",
-    //         time: 2500
-    //     },
-    //     {
-    //         title: "Story 4",
-    //         description: "description 4",
-    //         image: "https://picsum.photos/500/753",
-    //         time: 7500
-    //     }
-    // ];
     const stories = @json($stories);
 
     const container = document.querySelector(".container");
@@ -83,7 +53,6 @@
             }
             return sum;
         });
-
         // necessary to make sure the last slide plays to completion
         this.maxTime =
             this.intervals[this.intervals.length - 1] +
@@ -183,7 +152,7 @@
 
     Storyfier.prototype.back = function() {
         if (
-            this.currentTime > this.intervals[this.currentIndex] + 350 ||
+            this.currentTime > this.intervals[this.currentIndex] + 35 ||
             this.currentIndex === 0
         ) {
             this.currentTime = this.intervals[this.currentIndex];
@@ -194,7 +163,6 @@
         this.currentTime = this.intervals[this.currentIndex];
         this.render();
     };
-
     const setup = async () => {
         const loadImages = stories.map(({ image }) => {
             return new Promise((resolve, reject) => {
@@ -205,8 +173,6 @@
                 img.src = image;
             });
         });
-
-
         await Promise.all(loadImages);
 
         const s = new Storyfier(stories, container);
@@ -220,10 +186,8 @@
             s.back();
         });
     };
-
     setup();
 
 </script>
-
 </body>
 </html>

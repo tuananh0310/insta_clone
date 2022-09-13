@@ -12,6 +12,8 @@ class Post extends Model
     use HasFactory;
     protected $guarded = [];
 
+    public $timestamps = true;
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -83,7 +85,6 @@ class Post extends Model
         $posts = $post->user->posts->except('$post->id');
         $post->image = explode('|', $post->image);
         $post->firstImage = $post->image[0];
-
         return $posts;
     }
 

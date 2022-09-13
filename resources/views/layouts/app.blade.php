@@ -23,7 +23,6 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
-    <!--end::Javascript-->
 </head>
 <body>
 <div id="app">
@@ -98,6 +97,9 @@
                 </div>
                 <!--end::Main wrapper-->
                 <ul class="navbar-nav" style="padding-top: 7px">
+                    <li class="nav-item">
+
+                    </li>
                     <!-- Authentication Links -->
                     @guest
                         <li class="nav-item">
@@ -115,12 +117,12 @@
                             </a>
                         </li>
                         <li class="nav-item px-2 pt-1 {{ Route::is('post.explore') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ url('/explore') }}">
+                            <a class="nav-link" href="{{ route('post.explore') }}">
                                 <i class="far fa-compass fa-2x"></i>
                             </a>
                         </li>
                         <li class="nav-item pl-2 pb-2">
-                            <a href="/profile/{{Auth::user()->username}}" class="nav-link" style="height: 37px; width: 37px" >
+                            <a href="{{route('profile.index', Auth::user()->username) }}" class="nav-link" style="height: 37px; width: 37px" >
                                 <img src="{{ asset(Auth::user()->profile->getProfileImage()) }} " class="rounded-circle w-100">
                             </a>
                         </li>

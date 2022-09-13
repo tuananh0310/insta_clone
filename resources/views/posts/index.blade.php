@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
+<div class="container pt-1">
     <div class="row justify-content-center">
         {{-- Main section --}}
         <main class="main col-md-8 px-2 py-3">
@@ -12,10 +12,10 @@
                     <!-- Card Header -->
                     <div class="card-header d-flex justify-content-between align-items-center bg-white pl-3 pr-1 py-2">
                         <div class="d-flex align-items-center">
-                            <a href="/profile/{{$post->user->username}}" style="width: 32px; height: 32px;">
+                            <a href="{{route('profile.index',$post->user->username) }}" style="width: 32px; height: 32px;">
                                 <img src="{{ asset($post->user->profile->getProfileImage()) }}" class="rounded-circle w-100">
                             </a>
-                            <a href="/profile/{{$post->user->username}}" class="my-0 ml-3 text-dark text-decoration-none">
+                            <a href="{{route('profile.index', $post->user->username) }}" class="my-0 ml-3 text-dark text-decoration-none">
                                 {{ $post->user->name }}
                             </a>
                         </div>
@@ -34,12 +34,12 @@
                                                 <form action="{{route('post.destroy', $post->id)}}" method="POST">
                                                     @csrf
                                                     @method("DELETE")
-                                                    <li class="btn  list-group-item">
+                                                    <li class="btn list-group-item">
                                                         <button class="btn" type="submit">Delete</button>
                                                     </li>
                                                 </form>
                                             @endcan
-                                            <a href="/p/{{ $post->id }}"><li class="btn list-group-item">Go to post</li></a>
+                                            <a href="{{route('post.show', $post->id)  }}"><li class="btn list-group-item">Go to post</li></a>
                                             <a href="#"><li class="btn list-group-item" data-dismiss="modal">Cancel</li></a>
                                         </ul>
                                     </div>
@@ -47,25 +47,18 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Card Image -->
-{{--                    <div class="js-post" ondblclick="showLike(this, 'like_{{ $post->id }}')">--}}
-{{--                        <i class="fa fa-heart"></i>--}}
-{{--                        <img class="card-img" src="{{ asset("storage/$post->image") }}" alt="post image" style="max-height: 767px">--}}
-{{--                    </div>--}}
                     <div class="tns" >
                         <div data-tns="true" data-tns-nav-position="bottom" data-tns-controls="false">
                             <!--begin::Item-->
-{{--                                <img src="{{ asset("storage/$post->image") }}" class="card-rounded shadow mw-100" alt="" />--}}
                                 @foreach($post->image as $value)
-                                <div class="js-post">
-                                <img src="{{ $value }}" class="card-img w-100 h-100" alt="" />
+                                <div class="js-post" ondblclick="showLike(this, 'like_{{ $post->id }}')">
+                                    <i class="fa fa-heart"></i>
+                                    <img src="{{ URL::to($value) }}" class="card-img w-100 h-100" alt="" />
                                 </div>
                                 @endforeach
-
                         </div>
                     </div>
-
                     <!-- Card Body -->
                     <div class="card-body px-3 py-2">
                         <div class="d-flex flex-row">
@@ -99,29 +92,28 @@
                                         </button>
                                     @endif
                                 @endif
-                                <a href="/p/{{ $post->id }}" class="btn pl-0">
+                                <a href="{{route('post.index', $post->id)  }}" style="padding-right: 15px" class="btn pl-0">
                                     <i class="far fa-comment fa-2x"></i>
                                 </a>
                                 <!-- Share Button trigger modal -->
-{{--                                <button type="button" class="btn pl-0 pt-0" data-toggle="modal" data-target="#sharebtn{{$post->id}}">--}}
-{{--                                    <svg aria-label="Share Post" class="_8-yf5 " fill="#262626" height="22" viewBox="0 0 48 48" width="21"><path d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 6.1h35.5L18 18.7 5.2 6.1zm18.7 33.6l-4.4-18.4L42.4 8.6 23.9 39.7z"></path></svg>--}}
-{{--                                </button>--}}
-                                <!-- Share Modal -->
-                                <div class="modal fade" id="sharebtn{{$post->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-                                        <div class="modal-content">
-                                            <ul class="list-group">
-                                                <li class="list-group-item" style="position: absolute; left: -1000px; top: -1000px">
-                                                    <input type="text" value="http://btl-laravel.demo/p/{{ $post->id }}" id="copy_{{ $post->id }}" />
-                                                </li>
-                                                <li class="btn list-group-item" data-dismiss="modal" onclick="copyToClipboard('copy_{{ $post->id }}')">Copy Link</li>
-                                                <li class="btn list-group-item" data-dismiss="modal">Cancel</li>
-                                            </ul>
-                                        </div>
+                                <button type="button" class="btn pl-0 pt-0" data-toggle="modal" data-target="#sharebtn{{$post->id}}">
+                                    <svg style="padding-top: 5px;margin-top: 10px;" aria-label="Share Post" class="_8-yf5 " fill="#262626" height="22" viewBox="0 0 48 48" width="21"><path d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 6.1h35.5L18 18.7 5.2 6.1zm18.7 33.6l-4.4-18.4L42.4 8.6 23.9 39.7z"></path></svg>
+                                </button>
+                            </form>
+                            <!-- Share Modal -->
+                            <div class="modal fade" id="sharebtn{{$post->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                    <div class="modal-content">
+                                        <ul class="list-group">
+                                            <li class="list-group-item" style="position: absolute; left: -1000px; top: -1000px">
+                                                <input type="text" value="{{route('post.show', $post->id)  }}" id="copy_{{ $post->id }}" />
+                                            </li>
+                                            <li class="btn list-group-item pb-2" data-dismiss="modal" onclick="copyToClipboard('copy_{{ $post->id }}')">Copy Link</li>
+                                            <li class="btn list-group-item" data-dismiss="modal">Cancel</li>
+                                        </ul>
                                     </div>
                                 </div>
-
-                            </form>
+                            </div>
                         </div>
                         <div class="flex-row">
                             <!-- Likes -->
@@ -153,7 +145,7 @@
                     <!-- Card Footer -->
                     <div class="card-footer p-0">
                         <!-- Add Comment -->
-                        <form action="{{ route('comments.store') }}" method="POST"> {{--   {{ action('CommentController@store') }}    --}}
+                        <form action="{{ route('comments.store') }}" method="POST">
                             @csrf
                             <div class="form-group mb-0  text-muted">
                                 <div class="input-group is-invalid">
@@ -177,29 +169,25 @@
                         </div>
                     </div>
                 </div>
-
             @endforelse
-            {{-- <example-component></example-component> --}} <!-- Testin Infinite scrooling with vue -->
         </main>
-
         {{-- Aside Section --}}
         <aside class="aside1 col-md-4 py-3" style="background-color: #fff ; margin-top: 15px">
             <div class="position-fixed">
                 <!-- User Info -->
                 <div class="d-flex align-items-center mb-3">
-                    <a href="/profile/{{Auth::user()->username}}" style="width: 56px; height: 56px;">
+                    <a href="{{route('profile.index',Auth::user()->username)}}" style="width: 56px; height: 56px;">
                         @if(Auth::user()->profile)
                         <img src="{{ asset(Auth::user()->profile->getProfileImage()) }}" class="rounded-circle w-100">
                         @endif
                     </a>
                     <div class='d-flex flex-column pl-3'>
-                        <a href="/profile/{{Auth::user()->username}}" class='h6 m-0 text-dark text-decoration-none' >
+                        <a href="{{route('profile.index',Auth::user()->username)}}" class='h6 m-0 text-dark text-decoration-none' >
                             <strong>{{ auth()->user()->username }}</strong>
                         </a>
                         <small class="text-muted ">{{ auth()->user()->name }}</small>
                     </div>
                 </div>
-
                 <!-- Suggestions -->
                 <div class='mb-4' style="width: 300px; padding-top: 20px">
                     <h5 class='text-secondary'>Suggestions For You</h5>
@@ -225,9 +213,7 @@
                                 </div>
                             </div>
                     @endforeach
-
                 </div>
-
                 <!-- CopyRight -->
                 <div>
                     <span style='color: #a6b3be;'>© 2022 InstaClone from TuanAnhLe</span>
@@ -237,59 +223,23 @@
 
     </div>
 </div>
-
 @endsection
-
-
 @section('exscript')
-    {{--    <script>--}}
-    {{--        function copyToClipboard(id) {--}}
-    {{--            var copyText = document.getElementById(id);--}}
-    {{--            copyText.select();--}}
-    {{--            copyText.setSelectionRange(0, 99999)--}}
-    {{--            document.execCommand("copy");--}}
-    {{--        }--}}
-
-    {{--        function showLike(e, id) {--}}
-    {{--            console.log("Like: ", id);--}}
-    {{--            var heart = e.firstChild;--}}
-    {{--            heart.classList.add('fade');--}}
-    {{--            setTimeout(() => {--}}
-    {{--                heart.classList.remove('fade');--}}
-    {{--            }, 2000);--}}
-    {{--        }--}}
-    {{--    </script>--}}
-
-    {{-- <script>
-
-        document.addEventListener('submit', function(e){
-            e.preventDefault()
-            console.log('script run... ');
-            var btn = e.submitter;
-            console.log(btn.name)
-
-            if (btn.name === 'liked'){
-                btn.classList.toggle('text-danger');
-                btn.value = !(btn.value == 'true');
-            }
-
-        })
-
-            " action="{{url()->action('PostsController@updatelikes', ['post'=>$post->id])}}">
-            url =  http://localhost:8000/p/{post}
-            (async () => {
-                const rawResponse = await fetch('http://localhost:8000/p/', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({a: 1, b: 'Textual content'})
-                });
-                const content = await rawResponse.json();
-
-                console.log(content);
-            })();
-
-    </script> --}}
+    <script>
+        function copyToClipboard(id) {
+            var copyText = document.getElementById(id);
+            copyText.select();
+            copyText.setSelectionRange(0, 99999)
+            document.execCommand("copy");
+        }
+        function showLike(e, id) {
+            console.log("Like: ", id);
+            var heart = e.firstChild;
+            heart.classList.add('fade');
+            setTimeout(() => {
+                heart.classList.remove('fade');
+            }, 2000);
+        }
+    </script>
 @endsection
+

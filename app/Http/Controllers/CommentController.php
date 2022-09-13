@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CommentStoreRequest;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class CommentController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * store comment
      */
-    public function store(Request $request)
+    public function store(CommentStoreRequest $request)
     {
         $post = $this->comment->storeComment($request);
         return redirect()->route('post.show', compact('post'));

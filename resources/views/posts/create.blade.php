@@ -8,7 +8,7 @@
                         <h4>New Post</h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('post.store') }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('post.store') }}" method="post" enctype="multipart/form-data" >
                             @csrf
                             <div class="form-group row">
                                 <label for="caption" class="col-md-4 col-form-label text-md-right"><strong>Caption</strong></label>
